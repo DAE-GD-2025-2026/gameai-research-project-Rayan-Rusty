@@ -99,7 +99,7 @@ void MainScene::SetMeshDataIntoModels()
     {
         Mesh mesh = {0};
 
-        mesh.vertexCount = m_MeshData[i].verts.size() / 3;
+        mesh.vertexCount = static_cast<int>(m_MeshData[i].verts.size() / 3);
         mesh.triangleCount = mesh.vertexCount / 3;
 
         mesh.vertices = static_cast<float*>(MemAlloc(m_MeshData[i].verts.size() * sizeof(float)));
