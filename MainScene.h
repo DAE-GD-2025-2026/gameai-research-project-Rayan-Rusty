@@ -1,0 +1,17 @@
+//
+// Created by omen on 23/05/2026.
+//
+
+#ifndef GAMEAI_RESEARCH_PROJECT_RAYAN_RUSTY_MAINSCENE_H
+#define GAMEAI_RESEARCH_PROJECT_RAYAN_RUSTY_MAINSCENE_H
+
+
+class MainScene
+{
+public:
+
+private:
+};
+
+
+#endif //GAMEAI_RESEARCH_PROJECT_RAYAN_RUSTY_MAINSCENE_H
