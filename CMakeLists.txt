@@ -20,7 +20,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(fastnoiselite)
 
-add_executable(MarchingCubes "MainScene.h" "MainScene.cpp" )
+add_executable(MarchingCubes "MainScene.h" "MainScene.cpp"
+        main.cpp
+        Utils.cpp
+        Utils.h
+        Tables.cpp
+        Tables.h
+        DataTypes.h)
 
 
 target_link_libraries(MarchingCubes raylib)

@@ -1,0 +1,8 @@
+//
+// Created by omen on 23/05/2026.
+//
+
+#ifndef MARCHINGCUBES_DATATYPES_H
+#define MARCHINGCUBES_DATATYPES_H
+
+#endif //MARCHINGCUBES_DATATYPES_H
