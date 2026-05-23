@@ -24,9 +24,6 @@ MainScene::MainScene()
         m_Positions.push_back(Vector3{static_cast<float>(width) ,static_cast<float>(height) ,static_cast<float>(depth) });
     }
 
-
-
-
     auto start = std::chrono::high_resolution_clock::now();
 
     ThreadingInitCpu();
@@ -105,10 +102,10 @@ void MainScene::SetMeshDataIntoModels()
         mesh.vertexCount = m_MeshData[i].verts.size() / 3;
         mesh.triangleCount = mesh.vertexCount / 3;
 
-        mesh.vertices = (float*)MemAlloc(m_MeshData[i].verts.size() * sizeof(float));
+        mesh.vertices = static_cast<float*>(MemAlloc(m_MeshData[i].verts.size() * sizeof(float)));
         memcpy(mesh.vertices, m_MeshData[i].verts.data(), m_MeshData[i].verts.size() * sizeof(float));
 
-        mesh.normals = (float*)MemAlloc(m_MeshData[i].normals.size() * sizeof(float));
+        mesh.normals = static_cast<float*>(MemAlloc(m_MeshData[i].normals.size() * sizeof(float)));
         memcpy(mesh.normals, m_MeshData[i].normals.data(), m_MeshData[i].normals.size() * sizeof(float));
 
         UploadMesh(&mesh, false);
@@ -128,11 +125,12 @@ void MainScene::RenderMesh() const {
         DrawModelWires(model, Vector3Zero(), 1.0f, BLACK);
     }
 
-
+    auto res = static_cast<float>(m_Resolution);
     for (int i = 0; i < m_Models.size(); i++)
     {
-        Vector3 cubePosition{m_Positions[i].x * m_Resolution, m_Positions[i].y* m_Resolution, m_Positions[i].z * m_Resolution};
-        DrawCubeWires(cubePosition, m_Resolution, m_Resolution, m_Resolution, WHITE);
+
+        Vector3 cubePosition{m_Positions[i].x * res, m_Positions[i].y* res, m_Positions[i].z * res};
+        DrawCubeWires(cubePosition, res, res, res, WHITE);
 
     }
 
