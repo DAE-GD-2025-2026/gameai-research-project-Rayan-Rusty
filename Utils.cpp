@@ -184,15 +184,10 @@ void Utils::DrawChunks(int resolution, const Vector3& ChunkPos, const std::vecto
 
             Vector3 tri[3] = { v0, v2, v1 };
 
-            for(int k=0;k<3;k++)
+            for (const auto& v : tri)
             {
-                verts.push_back(tri[k].x);
-                verts.push_back(tri[k].y);
-                verts.push_back(tri[k].z);
-
-                normals.push_back(n.x);
-                normals.push_back(n.y);
-                normals.push_back(n.z);
+                verts.insert(verts.end(), { v.x, v.y, v.z });
+                normals.insert(normals.end(), { n.x, n.y, n.z });
             }
 
         }
