@@ -139,7 +139,7 @@ void MainScene::RenderMesh() const {
 
 void MainScene::Update(float deltaTime)
 {
-    UpdateCamera(&worldCamera , CAMERA_FREE);
+    UpdateCamera(&worldCamera , CAMERA_ORBITAL);
 }
 
 
@@ -147,10 +147,11 @@ void MainScene::Update(float deltaTime)
 void MainScene::ThreadingInitCpu()
 {
 
-    worldCamera.position = Vector3{ -3.f , 4.f , 10.f };
-    worldCamera.target = Vector3{0.0f,0.0f,0.0f };
-    worldCamera.up = Vector3{ 0.f , 1.f, 0.f };
-    worldCamera.fovy = 45.f;
+    worldCamera.position = Vector3{ 24.f, 40.f, 80.f };
+    worldCamera.target   = Vector3{ 24.f,  0.f, 24.f };
+    worldCamera.up       = Vector3{  0.f,  1.f,  0.f };
+    worldCamera.fovy     = 45.f;
+
     worldCamera.projection = CAMERA_PERSPECTIVE;
 
 

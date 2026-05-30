@@ -41,6 +41,7 @@ float Utils::Density(float x, float y, float z)
 }
 ```
 
+
 `y - groundLevel` alone would give a perfectly flat plane.
 Adding noise and subtracting it from the scalar creates hills and valleys. Where the noise is large and positive,
 the surface rises.
@@ -48,6 +49,8 @@ Where it's negative,
 the surface dips. 
 The terrain shape is entirely determined by where this function equals zero.
 
+![img.png](Resources/img.png)
+![Noise.png](Resources/Noise.png)
 <hr>
 
 ### 2. Sampling the grid
@@ -60,6 +63,8 @@ float worldX = static_cast<float>(x) + ChunkPos.x * static_cast<float>(total - 1
 ```
 
 The `total - 1` ensures that each chunk seamlessly connect, so no cracks appear between them.
+
+![Cut.png](Resources/Cut.png)
 
 <hr>
 
@@ -165,10 +170,16 @@ for (int i = 0; i < nThreads; i++)
 Mesh generation `DrawChunks`
 is also parallelized. Each chunk runs on its own `thread`,
 writing into its own `ChunkMeshData` to avoid data races.
-Results are uploaded to the GPU after all threads finish.
+Results are pushed to the GPU after all threads finish. That's how you get the following result :]!
 
 <hr>
 
+
+![Mess.png](Resources/Mess.png)
+
+![Gif](Resources/GifMap.gif)
+
+<hr>
 
 <div>
   <h2 >Sources</h2>
