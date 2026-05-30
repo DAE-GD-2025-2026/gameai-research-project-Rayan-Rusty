@@ -120,9 +120,7 @@ vertexList[i] = Vector3Lerp(cornersCell[a], cornersCell[b], t);
 
 `triTable[cubeIndex]` is a list of edge indices,
 that describes which vertices to connect into triangles for this configuration.
-There are 256 entries covering every case,
-precomputed from the 15 base patterns that exist by symmetry
-
+There are 256 entries covering every case.
 ```cpp
 for (int i = 0; triTable[cubeIndex][i] != -1; i += 3)
 {
@@ -165,7 +163,7 @@ for (int i = 0; i < nThreads; i++)
 ```
 
 Mesh generation `DrawChunks`
-is also parallelized. Each chunk runs on its own `std::jthread`,
+is also parallelized. Each chunk runs on its own `thread`,
 writing into its own `ChunkMeshData` to avoid data races.
 Results are uploaded to the GPU after all threads finish.
 
