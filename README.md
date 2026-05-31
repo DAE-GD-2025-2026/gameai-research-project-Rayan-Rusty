@@ -115,7 +115,7 @@ Instead, by using interpolation based on their densities:
 float t{ (0.f - valA) / (valB - valA) };
 vertexList[i] = Vector3Lerp(cornersCell[a], cornersCell[b], t);
 ```
-you can achieve a smoother surface
+you can achieve a smoother surface.
 <hr>
 
 ### 6. Triangle table → triangle mesh
@@ -165,7 +165,7 @@ for (int i = 0; i < nThreads; i++)
 ```
 
 Mesh generation `DrawChunks`
-is also parallelized. Each chunk runs on its own `thread`,
+is also parallelized. Each chunk runs on its own thread,
 writing into its own `ChunkMeshData` to avoid data races.
 Results are pushed to the GPU after all threads are finished. That's how you get the following result :]!
 
