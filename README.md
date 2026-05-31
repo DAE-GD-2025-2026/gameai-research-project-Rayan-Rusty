@@ -14,10 +14,10 @@ An implementation of the marching cubes algorithm in C++ using Raylib, with mult
 Marching cubes is an algorithm that turns a 3D scalar field into a mesh.
 Instead of placing geometry by hand,
 you define a function that returns a number at every point in space. Negative means "inside the surface",
-positive means "outside". The algorithm marches through every cube-shaped cell in a voxel grid,
+positive means "outside". The algorithm basically marches through every cube-shaped cell in a voxel grid and
 figures out which edges the surface crosses, and outputs triangles.
 
-The result is a mesh from any implicit function, without ever placing a single vertex yourself.
+The result is a mesh from any implicit function, without ever placing anything yourself.
  
 <hr>
 
@@ -28,7 +28,7 @@ The result is a mesh from any implicit function, without ever placing a single v
 
 Every point in 3D space has a density value. The surface sits exactly where density = 0. <0 = inside, >0 = outside.
 
-In `Utils.cpp`, the density function is:
+In `Utils`, the density function is:
 
 ```cpp
 float Utils::Density(float x, float y, float z)
@@ -42,12 +42,9 @@ float Utils::Density(float x, float y, float z)
 ```
 
 
-`y - groundLevel` alone would give a perfectly flat plane.
-Adding noise and subtracting it from the scalar creates hills and valleys. Where the noise is large and positive,
-the surface rises.
-Where it's negative,
-the surface dips. 
-The terrain shape is entirely determined by where this function equals zero.
+`y - groundLevel`  on its own would give a perfectly flat plane.
+Adding noise and subtracting it from the scalar creates hills and valleys.
+The terrain shape is entirely decided by where this function equals zero.
 
 ![img.png](Resources/img.png)
 ![Noise.png](Resources/Noise.png)
@@ -62,7 +59,7 @@ Each chunk has a position in chunk-space:
 float worldX = static_cast<float>(x) + ChunkPos.x * static_cast<float>(total - 1) - static_cast<float>(half);
 ```
 
-The `total - 1` ensures that each chunk seamlessly connect, so no cracks appear between them.
+The `total - 1` makes it so that each chunk seamlessly connects, so that there are no cracks between them.
 
 ![Cut.png](Resources/Cut.png)
 
@@ -89,13 +86,13 @@ With 8 corners there are 2⁸ = 256 possible combinations,
 covering every way the surface can pass through a cube.
 Index 0 means all corners are outside (no surface).
 Index 255 means all corners are inside (no surface).
-Everything in between produces some triangle config.
+Everything in between produces some triangle.
 
 <hr>
 
 ### 4. Edge table lookup
 
-Not every edge is crossed by the surface in a given configuration.
+Not every edge is crossed by the surface.
 The precomputed `edgeTable[256]` is a bitmask. Each of its 12 bits corresponds to one edge of the cube.
 If a bit is set, the surface crosses that edge and a vertex needs to be placed there:
 
@@ -104,28 +101,28 @@ int edges = edgeTable[cubeIndex];
 if (edges == 0) continue;
 ```
 
-This skips any cell where the surface doesn't pass through at all, which is most of the grid.
+This skips any cell where the surface doesn't pass through at all.
 
 <hr>
 
 ### 5. Vertex interpolation
 
 Snapping every vertex to the midpoint of its edge would create a blocky,
-Minecraft-like result.
-Instead, the vertex is interpolated between the two corners based on their densities:
+Minecraft like result.
+Instead, by using interpolation based on their densities:
 
 ```cpp
 float t{ (0.f - valA) / (valB - valA) };
 vertexList[i] = Vector3Lerp(cornersCell[a], cornersCell[b], t);
 ```
-
+you can achieve a smoother surface
 <hr>
 
 ### 6. Triangle table → triangle mesh
 
 `triTable[cubeIndex]` is a list of edge indices,
-that describes which vertices to connect into triangles for this configuration.
-There are 256 entries covering every case.
+that describes which vertices to connect into triangles.
+There are 256 covering every case.
 ```cpp
 for (int i = 0; triTable[cubeIndex][i] != -1; i += 3)
 {
@@ -140,7 +137,7 @@ for (int i = 0; triTable[cubeIndex][i] != -1; i += 3)
 
 ### 7. Face normals
 
-Normals are computed per triangle using the cross product of two edges, then stored per vertex:
+Normals are computed per triangle using the cross product of two edges and then stored per vertex:
 
 ```cpp
 Vector3 n =
@@ -170,7 +167,7 @@ for (int i = 0; i < nThreads; i++)
 Mesh generation `DrawChunks`
 is also parallelized. Each chunk runs on its own `thread`,
 writing into its own `ChunkMeshData` to avoid data races.
-Results are pushed to the GPU after all threads finish. That's how you get the following result :]!
+Results are pushed to the GPU after all threads are finished. That's how you get the following result :]!
 
 <hr>
 
